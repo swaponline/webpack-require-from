@@ -126,3 +126,25 @@ exports.buildVariableCode = function(
     `}`
   ].join("\n");
 };
+
+
+exports.buildWindowVariableCode = function(
+  variableName,
+  defaultPublicPath,
+  shouldSupressErrors = false
+) {
+  return [
+    `try {`,
+    `  if (typeof window === "undefined") {`,
+    `    return "${defaultPublicPath.replace(/\\/g, "\\\\")}";`,
+    `  }`,
+    `  window.${variableName} = "${defaultPublicPath.replace(/\\/g, "\\\\")}";`,
+    `  return "${defaultPublicPath.replace(/\\/g, "\\\\")}";`,
+    `} catch (e) {`,
+    `  if (!${shouldSupressErrors}) {`,
+    `    console.error(e);`,
+    `  }`,
+    `  return "${defaultPublicPath.replace(/\\/g, "\\\\")}";`,
+    `}`
+  ].join("\n");
+};

@@ -11,7 +11,8 @@ const {
   buildSrcReplaceCode,
   buildMethodCode,
   buildStringCode,
-  buildVariableCode
+  buildVariableCode,
+  buildWindowVariableCode
 } = require("./codeBuilders");
 
 class WebpackRequireFrom {
@@ -31,7 +32,8 @@ class WebpackRequireFrom {
     this.exclusiveOptionLength = [
       this.options.methodName,
       this.options.path,
-      this.options.variableName
+      this.options.variableName,
+      this.options.staticWindowVariableName
     ].filter(_ => _).length;
     if (this.exclusiveOptionLength && this.exclusiveOptionLength !== 1) {
       throw new Error(
@@ -112,7 +114,13 @@ class WebpackRequireFrom {
       });
 
       let getterBody;
-      if (this.options.variableName) {
+      if (this.options.staticWindowVariableName) {
+        getterBody = buildWindowVariableCode(
+          this.options.staticWindowVariableName,
+          defaultPublicPath,
+          this.options[SUPPRESS_ERRORS_OPTION_NAME]
+        );
+      } else if (this.options.variableName) {
         getterBody = buildVariableCode(
           this.options.variableName,
           defaultPublicPath,

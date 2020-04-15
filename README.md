@@ -69,13 +69,25 @@ Set path for dynamically loading modules. The value you provide will replace `co
 
 For example, if default URL is `https://localhost`, chunk name is `0.js` and options object is `{path: "customPath/" }`, the chunk will be fetched from `https://localhost/customPath/0.js`
 
-> **NOTE** `path`, `methodName` and `variableName` are mutualy exclusive and cannot be used together
+> **NOTE** `path`, `methodName`, `staticWindowVariableName` and `variableName` are mutualy exclusive and cannot be used together
 
 ## `variableName`
 
 `variableName` is the globaly defined variable that will be evaluated at runtime, `variableName` is the name of a variable with string value that represents a path / URL that will be used for dynamically importing of chunks.
 
 For example, if default URL is `https://localhost`, chunk name is `0.js` and options object is `{variableName: "chunkURL" }`, while `window.chunkURL` is defined to be:
+
+```javascript
+window.chunkURL = "https://app.cdn.com/buildXXX/";
+```
+
+the chunk will be fetched from `https://app.cdn.com/buildXXX/0.js`
+
+## `staticWindowVariableName`
+
+`staticWindowVariableName` is the globaly defined variable that will be evaluated at runtime, `staticWindowVariableName` is the name of a variable with string value that represents a path / URL that will be used for **static** importing of chunks.
+
+For example, if default URL is `https://localhost`, chunk name is `0.js` and options object is `{staticWindowVariableName: "chunkURL" }`, while `window.chunkURL` is defined to be:
 
 ```javascript
 window.chunkURL = "https://app.cdn.com/buildXXX/";
@@ -102,7 +114,7 @@ the chunk will be fetched from `https://app.cdn.com/buildXXX/0.js`
 
 If used together with `replaceSrcMethodName`, chunks URL will be first modified by `window[methodName]` and then, the modified values are passed as an argument to `window[replaceSrcMethodName]` function.
 
-> **NOTE** `path`, `methodName` and `variableName` are mutualy exclusive and cannot be used together
+> **NOTE** `path`, `methodName`, `staticWindowVariableName` and `variableName` are mutualy exclusive and cannot be used together
 
 > **NOTE** that the method should be defined in a global namespace and should be defined before `require.ensure` or `import()` is invoked. See examples below
 
