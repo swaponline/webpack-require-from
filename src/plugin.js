@@ -142,7 +142,8 @@ class WebpackRequireFrom {
         "Object.defineProperty(" + mainTemplate.requireFn + ', "p", {',
         "  get: function () {",
         getterBody,
-        " }",
+        " },",
+        "  set: function () {}",
         "})"
       ].join("\n");
     });
