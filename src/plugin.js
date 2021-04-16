@@ -144,7 +144,7 @@ class WebpackRequireFrom {
         getterBody,
         " },",
         "  set: function () {}",
-        "})"
+        "});"
       ].join("\n");
     });
   }
